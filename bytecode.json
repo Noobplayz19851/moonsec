@@ -1,37 +1,116 @@
-[
-    {
-       "label":"Arabic",
-       "description":"0",
-       "detail":"ئضسزقكنؠ"
-    },
-     {
-       "label":"Letters",
-       "description":"1",
-       "detail":"1C8MlIioO0NH"
-    },
-     {
-       "label":"Symbols",
-       "description":"2",
-       "detail":"/+^,;.:_#"
-    },
-     {
-       "label":"Russian",
-       "description":"3",
-       "detail":"ртыуиоп"
-    },
-     {
-       "label":"Whitespace",
-       "description":"4",
-       "detail":" "
-    },
-     {
-       "label":"Chinese",
-       "description":"5",
-       "detail":"㒚㒛㒜㒝㒞㒟㒠㒡"
-    },
-     {
-       "label":"Emoji",
-       "description":"6",
-       "detail":"😝😇😁🙃🙃😉😅"
-    }
- ]
+-- GUI and Player Setup
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+local mainFrame = Instance.new("Frame")
+local saveFrame = Instance.new("Frame")
+local loadFrame = Instance.new("Frame")
+local tabs = Instance.new("Frame")
+local saveTab = Instance.new("TextButton")
+local loadTab = Instance.new("TextButton")
+
+local saveLabel = Instance.new("TextLabel")
+local targetPlayerInput = Instance.new("TextBox")
+local buildNameInput = Instance.new("TextBox")
+local saveButton = Instance.new("TextButton")
+
+local loadLabel = Instance.new("TextLabel")
+local loadScrollFrame = Instance.new("ScrollingFrame")
+
+-- Folder for Saved Builds
+local savedBuildsFolder = game:GetService("ReplicatedStorage"):FindFirstChild("Planecrazybuild") or Instance.new("Folder", game:GetService("ReplicatedStorage"))
+savedBuildsFolder.Name = "Planecrazybuild"
+
+-- GUI Setup
+screenGui.Name = "BuildManagerGUI"
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+mainFrame.Name = "MainFrame"
+mainFrame.Parent = screenGui
+mainFrame.Size = UDim2.new(0.5, 0, 0.6, 0)
+mainFrame.Position = UDim2.new(0.25, 0, 0.2, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+
+tabs.Name = "Tabs"
+tabs.Parent = mainFrame
+tabs.Size = UDim2.new(1, 0, 0.1, 0)
+tabs.Position = UDim2.new(0, 0, 0, 0)
+tabs.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+
+saveTab.Name = "SaveTab"
+saveTab.Parent = tabs
+saveTab.Size = UDim2.new(0.5, 0, 1, 0)
+saveTab.Text = "Save Build"
+saveTab.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+saveTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+saveTab.Font = Enum.Font.GothamBold
+saveTab.TextSize = 18
+
+loadTab.Name = "LoadTab"
+loadTab.Parent = tabs
+loadTab.Size = UDim2.new(0.5, 0, 1, 0)
+loadTab.Position = UDim2.new(0.5, 0, 0, 0)
+loadTab.Text = "Load Build"
+loadTab.BackgroundColor3 = Color3.fromRGB(50, 255, 150)
+loadTab.TextColor3 = Color3.fromRGB(255, 255, 255)
+loadTab.Font = Enum.Font.GothamBold
+loadTab.TextSize = 18
+
+saveFrame.Name = "SaveFrame"
+saveFrame.Parent = mainFrame
+saveFrame.Size = UDim2.new(1, 0, 0.9, 0)
+saveFrame.Position = UDim2.new(0, 0, 0.1, 0)
+saveFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+saveFrame.Visible = true
+
+loadFrame.Name = "LoadFrame"
+loadFrame.Parent = mainFrame
+loadFrame.Size = UDim2.new(1, 0, 0.9, 0)
+loadFrame.Position = UDim2.new(0, 0, 0.1, 0)
+loadFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+loadFrame.Visible = false
+
+-- Save Frame Contents
+saveLabel.Name = "SaveLabel"
+saveLabel.Parent = saveFrame
+saveLabel.Size = UDim2.new(1, 0, 0.1, 0)
+saveLabel.Position = UDim2.new(0, 0, 0, 0)
+saveLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+saveLabel.Text = "Save Build"
+saveLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+saveLabel.Font = Enum.Font.GothamBold
+saveLabel.TextSize = 20
+
+targetPlayerInput.Name = "TargetPlayerInput"
+targetPlayerInput.Parent = saveFrame
+targetPlayerInput.Size = UDim2.new(0.9, 0, 0.1, 0)
+targetPlayerInput.Position = UDim2.new(0.05, 0, 0.15, 0)
+targetPlayerInput.PlaceholderText = "Enter Target Player's Username"
+targetPlayerInput.Text = ""
+targetPlayerInput.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+targetPlayerInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+targetPlayerInput.Font = Enum.Font.Gotham
+targetPlayerInput.TextSize = 18
+
+buildNameInput.Name = "BuildNameInput"
+buildNameInput.Parent = saveFrame
+buildNameInput.Size = UDim2.new(0.9, 0, 0.1, 0)
+buildNameInput.Position = UDim2.new(0.05, 0, 0.3, 0)
+buildNameInput.PlaceholderText = "Enter Build Name"
+buildNameInput.Text = ""
+buildNameInput.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+buildNameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+buildNameInput.Font = Enum.Font.Gotham
+buildNameInput.TextSize = 18
+
+saveButton.Name = "SaveButton"
+saveButton.Parent = saveFrame
+saveButton.Size = UDim2.new(0.9, 0, 0.1, 0)
+saveButton.Position = UDim2.new(0.05, 0, 0.45, 0)
+saveButton.Text = "Save Build"
+saveButton.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+saveButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+saveButton.Font = Enum.Font.GothamBold
+saveButton.TextSize = 18
+
+-- Update function here with corrections:
+-- I'll test and explain further once you confirm! 😊
